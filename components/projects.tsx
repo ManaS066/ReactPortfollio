@@ -24,7 +24,7 @@ const projectsData = [
     description:
       "A platform connecting freelancers with potential clients, featuring project management and payment integration.",
     image: "/images/bw.jpg",
-    link: "https://github.com/ManaS066/BridgeWork",
+    link: "https://bridge-work.vercel.app",
     github: "https://github.com/ManaS066/BridgeWork",
     tags: ["HTML", "CSS", "JavaScript","Flask"],
   },
