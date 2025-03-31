@@ -1,9 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Facebook, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -22,6 +19,23 @@ const Contact = () => {
       setIsVisible(true)
     }
   }, [inView])
+
+  // Effect to load the testimonial widget script
+  useEffect(() => {
+    // Load the testimonial.to widget script
+    const script = document.createElement("script")
+    script.src = "https://testimonial.to/js/widget-embed.js"
+    script.async = true
+    script.type = "text/javascript"
+    document.body.appendChild(script)
+
+    return () => {
+      // Clean up script when component unmounts
+      if (document.body.contains(script)) {
+        document.body.removeChild(script)
+      }
+    }
+  }, [])
 
   return (
     <section id="contact" ref={ref} className="bg-muted/30 py-20">
@@ -120,62 +134,45 @@ const Contact = () => {
             </Card>
           </div>
 
+          {/* Testimonial Section replacing the form */}
           <div
             className={cn(
               "lg:col-span-2 transition-all duration-700 delay-300",
               isVisible ? "translate-x-0 opacity-100" : "translate-x-20 opacity-0",
             )}
           >
-            <Card className="border-0 shadow-lg">
+            <Card className="h-full border-0 shadow-lg">
               <CardContent className="p-6">
-                <form className="space-y-6">
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium">
-                        Your Name
-                      </label>
-                      <Input id="name" placeholder="John Doe" className="border-muted-foreground/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium">
-                        Your Email
-                      </label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="john@example.com"
-                        className="border-muted-foreground/20"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium">
-                      Subject
-                    </label>
-                    <Input id="subject" placeholder="How can I help you?" className="border-muted-foreground/20" />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium">
-                      Your Message
-                    </label>
-                    <Textarea
-                      id="message"
-                      placeholder="Write your message here..."
-                      className="min-h-[150px] border-muted-foreground/20"
-                    />
-                  </div>
-                  <Button type="submit" size="lg" className="w-full rounded-full">
-                    Send Message
-                  </Button>
-                </form>
+                <h3 className="mb-6 font-poppins text-xl font-bold">Share Your Feedback</h3>
+                <div 
+                  className="testimonial-to-embed w-full h-full min-h-[400px]" 
+                  data-url="https://embed-v2.testimonial.to/c/contact-me?theme=dark" 
+                  data-allow="camera;microphone" 
+                  data-resize="true"
+                ></div>
               </CardContent>
             </Card>
           </div>
         </div>
+      </div>
+
+      {/* Buy Me A Coffee Widget - Script loaded conditionally */}
+      <div className="mt-12 text-center">
+        <script 
+          data-name="BMC-Widget" 
+          data-cfasync="false" 
+          src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" 
+          data-id="manas066" 
+          data-description="Support me on Buy me a coffee!" 
+          data-message="" 
+          data-color="#5F7FFF" 
+          data-position="Right" 
+          data-x_margin="18" 
+          data-y_margin="18"
+        ></script>
       </div>
     </section>
   )
 }
 
 export default Contact
-
